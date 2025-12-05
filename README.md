@@ -2,6 +2,8 @@
 
 Scan a target domain for publicly accessible backup files, database dumps, configuration files, and other potentially sensitive resources commonly leaked by mistake.
 
+Example results: [pcelarstvopejcic.com](https://github.com/stefanpejcic/wp-backup-scanner/actions/runs/19971581926/job/57277411236#step:5:17)
+
 <a href="https://github.com/new?template_name=wp-backup-scanner&template_owner=stefanpejcic">
   <img src="https://img.shields.io/badge/Use%20this%20template-2ea44f?style=for-the-badge" alt="Use this template">
 </a>
