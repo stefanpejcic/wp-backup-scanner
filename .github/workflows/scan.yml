@@ -43,7 +43,7 @@ jobs:
           echo "======================================="
           echo "Scanning domain: $domain"
           echo "======================================="
-          php scan.php "$domain"
+          php scan.php domain="$domain"
         done
 
     - name: Commit & Push Results
