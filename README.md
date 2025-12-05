@@ -20,5 +20,5 @@ or via browser:
 http://localhost/scan.php?domain=example.com
 ```
 
-
 If files are detected, they will be stored in: `./<domain>/<YYYYMMDD>/<filename>`
+
