@@ -27,7 +27,4 @@ or via browser:
 http://localhost/scan.php?domain=example.com
 ```
 
-or [with Github](https://github.com/new?template_name=wp-backup-scanner&template_owner=stefanpejcic)
-
-
 If files are detected, they will be stored in: `./<domain>/<YYYYMMDD>/<filename>`
