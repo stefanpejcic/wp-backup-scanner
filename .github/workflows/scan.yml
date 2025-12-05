@@ -1,0 +1,58 @@
+name: Backup Scanner
+
+on:
+  workflow_dispatch:
+    inputs:
+      domain:
+        description: 'Domain to scan (optional). Leave empty to use domain.txt'
+        required: false
+      run_notes:
+        description: 'Optional notes for this scan'
+        required: false
+  schedule:
+    - cron: '0 0 * * *'
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Set up PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.2'
+
+    - name: Determine domains to scan
+      id: domains
+      run: |
+        if [ -n "${{ github.event.inputs.domain }}" ]; then
+          echo "Using domain input: ${{ github.event.inputs.domain }}"
+          echo "domains=${{ github.event.inputs.domain }}" >> $GITHUB_OUTPUT
+        else
+          DOMAIN_LIST=$(cat domain.txt | tr '\n' ' ')
+          echo "Using domains from domain.txt: $DOMAIN_LIST"
+          echo "domains=$DOMAIN_LIST" >> $GITHUB_OUTPUT
+        fi
+
+    - name: Run Backup Scanner
+      run: |
+        for domain in ${{ steps.domains.outputs.domains }}; do
+          echo "======================================="
+          echo "Scanning domain: $domain"
+          echo "======================================="
+          php scan.php "$domain"
+        done
+
+    - name: Commit & Push Results
+      run: |
+        git config --global user.name "github-actions"
+        git config --global user.email "github-actions@github.com"
+
+        git add -A
+        git commit -m "Scan results: $(date -u '+%Y-%m-%d %H:%M UTC')" || echo "No changes to commit"
+        git push
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
