@@ -2,11 +2,25 @@
 
 // Scan only websites that you own or have explicit permission to scan
 
+
 header('Content-Type: text/plain');
 
+# CLI
+if (php_sapi_name() === 'cli') {
+    foreach ($argv as $arg) {
+        if (strpos($arg, '=') !== false) {
+            list($key, $value) = explode('=', $arg, 2);
+            $_GET[$key] = $value;
+        }
+    }
+}
+
+# URI
 $domain = filter_var($_GET['domain'] ?? null, FILTER_VALIDATE_DOMAIN, FILTER_FLAG_HOSTNAME);
+
 if (!$domain) die("Invalid domain.\n");
 if (!checkdnsrr($domain, "A") && !checkdnsrr($domain, "AAAA")) { die("Domain does not resolve!\n");}
+
 
 echo "Scanning: $domain\n\n";
 
