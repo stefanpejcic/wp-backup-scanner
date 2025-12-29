@@ -6,8 +6,9 @@ on:
       domain:
         description: 'Domain to scan'
         required: true
-  schedule:
-    - cron: '0 0 * * *'
+  #TEMP OFF
+  # schedule:
+  #  - cron: '0 0 * * *'
 
 jobs:
   scan:
